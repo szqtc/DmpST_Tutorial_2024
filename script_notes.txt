@@ -1,0 +1,32 @@
+#!/bin/bash
+
+#### let's recap what we learnt yesterday
+# 0. go to the folder where the DmpST, PH file, SC file locate
+cd /root/dampe
+
+# 1. generate the observation angle to see if the source is detectable in the given time interval
+#           the_place_of_the_script         sc_file    working_dir  G/C   coordinates     time_interval
+python DmpST/scripts/FindObservedTime.py  DAMPE_SC.fits  Vela2      C    128.84  -45.18  2016-01-01  2017-01-01
+
+# 2. see the counts map, energy distribution to grasp the idea of the data
+#      the_place_of_the_script    input_data   working_dir G/C  coordinate   radius  pixel_size  projection  energy_range(MeV)num_energy_bins       time_interval
+python DmpST/scripts/GetInfo.py  DAMPE_PH.fits   Vela2      C  128.84  -45.18   7       0.1        CAR        3e3    3e5           10                2016-01-01  2017-01-01
+
+# 3. generate the live time cube for the selected data set (13 mins for ord 5, 4 mins for ord 4)
+#       the_place_of_the_script      sc_file     the_selected_photons   output_livetime_cube    num_threads   
+python DmpST/scripts/Dmpltcube.py  DAMPE_SC.fits   Vela2/events.fits       Vela2/ltcube.fits    --nthreads 2   -ord 4
+
+# 4. fit the data with the model
+cp Vela_input.yaml Vela2/
+#         the_place_of_the_script       the_selected_photons     sc_file     livetime_cube    working_dir  prefix G/C   coordinate    radius roi_radius  pixel_size  projection  energy_range  nebin      time_interval
+python DmpST/scripts/BinnedPipeline.py    Vela2/events.fits   DAMPE_SC.fits Vela2/ltcube.fits  Vela2        Vela   C   128.84  -45.18          7          5       0.1          CAR       3e3  3e5      10      2016-01-01 2017-01-01 --irf DmpST/DmpIRFs/
+
+
+######## run on your computer ####
+## copy back the results from the server, password is cnic.cn502Bm$
+
+#scp -r root@159.226.33.XXX:/root/dampe/Vela2 . ## server -> your_computer
+
+#scp -r xx root@159.226.33.XXX:/root/dampe/  ## your_computer -> server
+
+
