@@ -9,3 +9,4 @@ held in Beijing from 2024-06-24 to 2024-06-28.
 Following files should be downloaded from the [DAMPE Gamma ray Database](https://dampe.nssdc.ac.cn/dampe/mission.php):
 - DAMPE_PH.fits: events file
 - DAMPE_SC.fits: spacecraft file
+- DmpST: the analyzing software

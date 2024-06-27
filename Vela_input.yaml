@@ -1,1 +1,39 @@
-../analysis/Vela.yml
+Vela:
+  name: Vela
+  type: PointSource
+  spatialModel:
+    type: SkyDirFunction
+    RA: {free: 0, max: 360.0,min: -360.0,name: RA, scale: 1.0, value: 128.84}
+    DEC: {free: 0, max: 90.0, min: -90.0, name: DEC, scale: 1.0, value: -45.18}
+  spectrum:
+    type: PowerLaw2
+    Integral: {free: 1, min: 1e-3, max: 1e3, name: Integral, scale: 1e-8, value: 1}
+    Index: {free: 1, min: 0, max: 10, name: Index, scale: -1, value: 2}
+    LowerLimit: {free: 0, min: 3e3, max: 1e6, name: LowerLimit, scale: 1, value: 3e3}
+    UpperLimit: {free: 0, min: 3e3, max: 1e6, name: UpperLimit, scale: 1, value: 3e5}
+
+gal_diffuse_source:
+  name: gal_diffuse_source
+  type: DiffuseSource
+  spatialModel:
+    type: MapCubeFunction
+    Normalization: {free: 0, max: 1e3, min: 1e-3, name: Normalization, scale: 1.0, value: 1.0}
+    file: dampe_gal_diffuse_model_v2_fix.fits
+  spectrum:
+    type: PowerLaw
+    Prefactor: {free: 1, max: 10, min: 0, name: Prefactor, scale: 1, value: 1}
+    Index: {free: 0, max: 1, min: -1, name: Index, scale: 1.0, value: 0}
+    Scale: {free: 0, max: 2e2, min: 5e1, name: Scale, scale: 1.0, value: 1e2}
+
+iso_diffuse_source:
+  name: iso_diffuse_source
+  type: DiffuseSource
+  spatialModel:
+    type: ConstantValue
+    Value: {free: 0, max: 10.0, min: 0.0, name: Value, scale: 1.0, value: 1.0}
+  spectrum:
+    type: PowerLaw2
+    Integral: {free: 1, max: 1e3, min: 1e-3, name: Integral, scale: 1e-7, value: 1}
+    Index: {free: 0, min: 0, max: 10, name: Index, scale: -1, value: 2.4}
+    LowerLimit: {free: 0, min: 3e3, max: 1e6, name: LowerLimit, scale: 1, value: 3e3}
+    UpperLimit: {free: 0, min: 3e3, max: 1e6, name: UpperLimit, scale: 1, value: 3e5}
